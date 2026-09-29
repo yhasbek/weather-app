@@ -1,4 +1,4 @@
-package com.weatherapp.countryservice;
+package com.weatherapp.country_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

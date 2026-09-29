@@ -1,4 +1,4 @@
-package com.weatherapp.countryservice;
+package com.weatherapp.country_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
