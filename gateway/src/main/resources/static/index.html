@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hava Durumu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container">
+    <header>
+        <h1>🌍 Hava Durumu</h1>
+        <p class="subtitle">Bir ülke ve şehir seç, önümüzdeki 7 günün tahminini gör.</p>
+    </header>
+
+    <div class="selectors">
+        <label>
+            Ülke
+            <select id="country">
+                <option value="">Ülke seçin</option>
+            </select>
+        </label>
+        <label>
+            Şehir
+            <select id="city" disabled>
+                <option value="">Önce ülke seçin</option>
+            </select>
+        </label>
+    </div>
+
+    <p id="message" class="message" hidden></p>
+    <section id="result"></section>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

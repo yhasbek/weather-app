@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="country-service" />
         <module name="city-service" />
         <module name="weather-service" />
+        <module name="country-service" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
   </component>
@@ -16,6 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="city-service" options="-parameters" />
       <module name="country-service" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="weather-service" options="-parameters" />
     </option>
   </component>
