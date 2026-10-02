@@ -6,6 +6,9 @@ import com.weatherapp.weather_service.dto.CityDto;
 import com.weatherapp.weather_service.dto.DailyForecast;
 import com.weatherapp.weather_service.dto.OpenMeteoResponse;
 import com.weatherapp.weather_service.dto.WeatherForecastResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,13 +20,16 @@ public class WeatherService {
 
     private final CityClient cityClient;
     private final OpenMeteoClient openMeteoClient;
+    private static final Logger log = LoggerFactory.getLogger(WeatherService.class);
 
     public WeatherService(CityClient cityClient, OpenMeteoClient openMeteoClient) {
         this.cityClient = cityClient;
         this.openMeteoClient = openMeteoClient;
     }
 
+    @Cacheable("forecasts")
     public WeatherForecastResponse getWeeklyForecast(Long cityId) {
+        log.info("Haftalık tahmin hazırlanıyor: cityId={}", cityId);
         CityDto city = cityClient.getCity(cityId);
         OpenMeteoResponse forecast = openMeteoClient.getWeeklyForecast(city.latitude(), city.longitude());
 

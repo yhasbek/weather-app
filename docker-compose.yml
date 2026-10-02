@@ -1,0 +1,71 @@
+services:
+
+  # ---------- Veritabanları ----------
+
+  country-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: countrydb
+      POSTGRES_USER: country
+      POSTGRES_PASSWORD: country
+    volumes:
+      - country-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U country -d countrydb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  city-db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: citydb
+      POSTGRES_USER: city
+      POSTGRES_PASSWORD: city
+    volumes:
+      - city-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U city -d citydb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # ---------- Servisler ----------
+
+  country-service:
+    build: ./country-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://country-db:5432/countrydb
+      SPRING_DATASOURCE_USERNAME: country
+      SPRING_DATASOURCE_PASSWORD: country
+    depends_on:
+      country-db:
+        condition: service_healthy
+
+  city-service:
+    build: ./city-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://city-db:5432/citydb
+      SPRING_DATASOURCE_USERNAME: city
+      SPRING_DATASOURCE_PASSWORD: city
+    depends_on:
+      city-db:
+        condition: service_healthy
+
+  weather-service:
+    build: ./weather-service
+    environment:
+      SERVICES_CITY_BASE_URL: http://city-service:8082
+
+  gateway:
+    build: ./gateway
+    environment:
+      COUNTRY_SERVICE_URL: http://country-service:8081
+      CITY_SERVICE_URL: http://city-service:8082
+      WEATHER_SERVICE_URL: http://weather-service:8083
+    ports:
+      - "8080:8080"
+
+volumes:
+  country-db-data:
+  city-db-data:

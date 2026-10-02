@@ -8,7 +8,14 @@ const result = document.getElementById("result");
 async function fetchJson(url) {
     const response = await fetch(url);
     if (!response.ok) {
-        throw new Error(`İstek başarısız oldu (HTTP ${response.status})`);
+        let detail = "";
+        try {
+            const problem = await response.json();
+            detail = problem.detail ?? "";
+        } catch {
+            // Cevap JSON değilse (örneğin Gateway'in kendi hata sayfası) sessizce geç
+        }
+        throw new Error(detail || `İstek başarısız oldu (HTTP ${response.status})`);
     }
     return response.json();
 }
