@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_DB: countrydb
       POSTGRES_USER: country
-      POSTGRES_PASSWORD: country
+      POSTGRES_PASSWORD: ${COUNTRY_DB_PASSWORD:-country}
     volumes:
       - country-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -21,7 +21,7 @@ services:
     environment:
       POSTGRES_DB: citydb
       POSTGRES_USER: city
-      POSTGRES_PASSWORD: city
+      POSTGRES_PASSWORD: ${CITY_DB_PASSWORD:-city}
     volumes:
       - city-db-data:/var/lib/postgresql/data
     healthcheck:
@@ -37,7 +37,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://country-db:5432/countrydb
       SPRING_DATASOURCE_USERNAME: country
-      SPRING_DATASOURCE_PASSWORD: country
+      SPRING_DATASOURCE_PASSWORD: ${COUNTRY_DB_PASSWORD:-country}
     depends_on:
       country-db:
         condition: service_healthy
@@ -47,7 +47,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://city-db:5432/citydb
       SPRING_DATASOURCE_USERNAME: city
-      SPRING_DATASOURCE_PASSWORD: city
+      SPRING_DATASOURCE_PASSWORD: ${CITY_DB_PASSWORD:-city}
     depends_on:
       city-db:
         condition: service_healthy
@@ -64,7 +64,7 @@ services:
       CITY_SERVICE_URL: http://city-service:8082
       WEATHER_SERVICE_URL: http://weather-service:8083
     ports:
-      - "8080:8080"
+      - "${APP_PORT:-8080}:8080"
 
 volumes:
   country-db-data:
