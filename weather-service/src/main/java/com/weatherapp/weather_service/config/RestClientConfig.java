@@ -24,7 +24,7 @@ public class RestClientConfig {
     }
 
     @Bean
-    public RestClient openMeteoRestClient(@Value("${open-meteo.base-url}") String baseUrl) {
+    public RestClient visualCrossingRestClient(@Value("${visual-crossing.base-url}") String baseUrl) {
         return buildClient(baseUrl);
     }
 
