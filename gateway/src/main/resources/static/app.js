@@ -142,6 +142,15 @@ function renderForecast(forecast) {
     result.replaceChildren(title, grid);
 }
 
+// --- Isınma: Arka plandaki servisleri önceden uyandır -------------------
+
+function warmUpServices() {
+    // Cevapları kullanmıyoruz; tek amaç servislerin uyanmasını tetiklemek.
+    fetch("/api/cities?countryCode=TR").catch(() => {});
+    fetch("/api/weather/1").catch(() => {});
+}
+
 // --- Başlangıç ---------------------------------------------------------
 
 loadCountries();
+warmUpServices();
